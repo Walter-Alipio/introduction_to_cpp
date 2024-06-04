@@ -12,6 +12,8 @@ int main()
    bool nao_acertou = true;
    int tentativas = 0;
 
+   double pontuacao = 1000.0;
+
    while (nao_acertou)
    {
       tentativas++;
@@ -23,6 +25,10 @@ int main()
 
       bool acertou = chute == NUMERO_SECRETO;
       bool maior = chute > NUMERO_SECRETO;
+      
+      //abs retorna o numero absoluto
+      double pontos_perdidos = abs(chute - NUMERO_SECRETO)/2.0;
+      pontuacao = pontuacao - pontos_perdidos;
 
       if (acertou)
       {
@@ -41,4 +47,7 @@ int main()
 
    cout<<"Fim de jogo!"<<endl;
    cout<<"Você acertou o número secreto em " << tentativas <<" tentativas" << endl;
+   cout.precision(2);
+   cout << fixed;
+   cout<<"Sua pontuação foi de "<<pontuacao<<endl;
 }
