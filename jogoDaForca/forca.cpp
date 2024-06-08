@@ -122,22 +122,31 @@ vector<string> le_arquivo()
     ifstream arquivo;
     arquivo.open("palavras.txt");
 
-    int quantidade_palavras;
-    arquivo >> quantidade_palavras;
-
-    vector<string> palavras_do_arquivo;
-
-    for (int i = 0; i < quantidade_palavras; i++)
+    if (arquivo.is_open())
     {
-        string palavra_lida;
-        arquivo >> palavra_lida;
 
-        palavras_do_arquivo.push_back(palavra_lida);
+        int quantidade_palavras;
+        arquivo >> quantidade_palavras;
+
+        vector<string> palavras_do_arquivo;
+
+        for (int i = 0; i < quantidade_palavras; i++)
+        {
+            string palavra_lida;
+            arquivo >> palavra_lida;
+
+            palavras_do_arquivo.push_back(palavra_lida);
+        }
+        arquivo.close();
+        return palavras_do_arquivo;
+    }else{
+        cout << "Não foi possível acessar o banco de palavras." << endl;
+        exit(0);
     }
-    return palavras_do_arquivo;
 }
 
-void sorteia_palavra(){
+void sorteia_palavra()
+{
     vector<string> palavras = le_arquivo();
 
     srand(time(NULL));
