@@ -103,20 +103,6 @@ void chuta()
     cout << endl;
 }
 
-void imprime_fim_de_jogo()
-{
-    cout << "Fim de jogo!" << endl;
-    cout << "A palavra secreta era: " << PALAVRA_SECRETA << endl;
-    if (nao_acertou())
-    {
-        cout << "Você perdeu! Tente novamente!" << endl;
-    }
-    else
-    {
-        cout << "Parabéns! Você acertou a palavra secreta!" << endl;
-    }
-}
-
 vector<string> le_arquivo()
 {
     ifstream arquivo;
@@ -144,6 +130,59 @@ vector<string> le_arquivo()
         exit(0);
     }
 }
+
+void salva_arquivo(vector<string> nova_lista){
+    ofstream arquivo;
+    arquivo.open("palavras.txt");
+    
+    if (arquivo.is_open()){
+        arquivo << nova_lista.size() << endl;
+
+        for (string palavra : nova_lista)
+        {
+            arquivo << palavra << endl;
+        }   
+
+        arquivo.close();
+    }else{
+        cout << "Não foi possível acessar o banco de palavras." << endl;
+        exit(0);
+    }
+}
+
+void adiciona_palavra(){
+    cout << "Digite a nova palavra, usando letras maiúsculas." << endl;
+    string nova_palavra;
+    cin >> nova_palavra;
+
+
+    vector<string> lista_palavras = le_arquivo();
+    lista_palavras.push_back(nova_palavra);
+
+    salva_arquivo(lista_palavras);
+}
+
+void imprime_fim_de_jogo()
+{
+    cout << "Fim de jogo!" << endl;
+    cout << "A palavra secreta era: " << PALAVRA_SECRETA << endl;
+    if (nao_acertou())
+    {
+        cout << "Você perdeu! Tente novamente!" << endl;
+    }
+    else
+    {
+        cout << "Parabéns! Você acertou a palavra secreta!" << endl;
+
+        cout << "Você desenha adicionar uma nova palavra ao banco? (S/N)" << endl;
+        char resposta;
+        cin >> resposta;
+        if ( toupper(resposta) == 'S'){
+            adiciona_palavra();
+        }
+    }
+}
+
 
 void sorteia_palavra()
 {
