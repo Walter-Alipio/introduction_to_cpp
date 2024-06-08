@@ -2,9 +2,12 @@
 #include <string>
 #include <map>
 #include <vector>
+#include <fstream>
+#include <ctime>
+#include <cstdlib>
 using namespace std;
 
-const string PALAVRA_SECRETA = "MELANCIA";
+string PALAVRA_SECRETA = "MELANCIA";
 map<char, bool> chutou;
 vector<char> chutes_errados;
 
@@ -114,10 +117,42 @@ void imprime_fim_de_jogo()
     }
 }
 
+vector<string> le_arquivo()
+{
+    ifstream arquivo;
+    arquivo.open("palavras.txt");
+
+    int quantidade_palavras;
+    arquivo >> quantidade_palavras;
+
+    vector<string> palavras_do_arquivo;
+
+    for (int i = 0; i < quantidade_palavras; i++)
+    {
+        string palavra_lida;
+        arquivo >> palavra_lida;
+
+        palavras_do_arquivo.push_back(palavra_lida);
+    }
+    return palavras_do_arquivo;
+}
+
+void sorteia_palavra(){
+    vector<string> palavras = le_arquivo();
+
+    srand(time(NULL));
+    int indice_sorteado = rand() % palavras.size();
+
+    PALAVRA_SECRETA = palavras[indice_sorteado];
+}
+
 int main()
 {
-
     imprime_cabecalho();
+
+    le_arquivo();
+
+    sorteia_palavra();
 
     while (nao_acertou() && nao_inforcou())
     {
